@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://unpkg.com/rxjs@%5E7/dist/bundles/rxjs.umd.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <div>
+            <label for="inputNormal">Ingrese un texto:</label>
+            <input type="text" name="descripcion" id="inputNormal">
+        </div>
+        <br>
+        <div>
+            <label for="outputInverse">Texto en Inverso:</label>
+            <input type="text" id="outputInverse" readonly></input>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    //Esta funcion se va a llamar cuando se termine de cargar la ventana
+    window.onload = function () {
+        const input = document.getElementById('inputNormal');
+        const outputInverse = document.getElementById('outputInverse');
+        //const onChangeEvent = rxjs.fromEvent(input, 'input');
+
+        const miCustomObservable = new rxjs.Observable((observable) => {
+            let salida;
+            input.addEventListener('input', (e) => {
+                if (input.value == 'error')
+                    observable.error('Ingresaron la palabra "error"');
+                if (input.value == 'complete')
+                    observable.complete()
+                if (e.data == null) {
+                    salida = outputInverse.value.substring(1)
+                } else {
+                    salida = outputInverse.value.split("").reverse().join("");
+                    salida += e.data;
+                    console.log(salida)
+                    salida = salida.split("").reverse().join("");
+                }
+                observable.next(salida)
+            })
+        })
+
+        const miFuncionNext = (data) => {
+            outputInverse.value = data;
+        }
+
+        const miFuncionComplete = () => {
+            console.log(`Funcion terminada por -> COMPLETE`);
+            input.disabled = true;
+            input.value = '';
+            outputInverse.disabled = true;
+            outputInverse.value = '';
+            sub.unsubscribe();
+        }
+
+        const miFuncionError = (msg) => {
+            console.log(`Funcion terminada por -> ERROR: ${msg}`);
+            input.disabled = true;
+            input.value = '';
+            outputInverse.disabled = true;
+            outputInverse.value = '';
+            sub.unsubscribe();
+        }
+
+        const sub = miCustomObservable.subscribe({
+            next: miFuncionNext,
+            error: miFuncionError,
+            complete: miFuncionComplete,
+        })
+
+        setTimeout(() => {
+            sub.unsubscribe();
+        }, 30000)
+    }
+</script>
+
+</html>
