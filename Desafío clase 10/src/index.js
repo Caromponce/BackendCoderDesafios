@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 /** INICIALIZACION API con EXPRESS */
 const app = express();
+const puerto = 8080;
 const router = express.Router();
 
 app.use(express.json());
@@ -19,22 +20,14 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.set('view engine', 'handlebars');
-
-app.engine('handlebars', handlebars({
+app.set('view engine', 'hbs');
+app.engine('hbs', handlebars({
     extname: '.hbs',
     defaultLayout: path.resolve(__dirname, '../views/layouts/index.hbs'),
     layoutsDir: path.resolve(__dirname, '../views/layouts'),
     partialsDir: path.resolve(__dirname, '../views/partials'),
-
 }));
-const puerto = 8080;
-
-//app.set('views', './views');
-//app.use(express.static('public'));
-
-
-
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 let productosArray = [];
 const readAll = () => {
@@ -43,7 +36,9 @@ const readAll = () => {
             error: 'no hay productos cargados'
         }
     } else {
-        return productosArray;
+        return {
+            data: productosArray
+        };
     }
 }
 const readOne = (idParam) => {
@@ -96,7 +91,9 @@ router.get('/productos/listar/:id', (req, res) => {
 })
 
 router.post('/productos/guardar', (req, res) => {
-    res.json(create(req.body.title, req.body.price, req.body.thumbnail));
+    create(req.body.title, req.body.price, req.body.thumbnail)
+    const allProdutos = readAll()
+    res.render("./partials/formulario")
 })
 
 router.put('/productos/actualizar/:id', (req, res) => {
@@ -108,7 +105,15 @@ router.delete('/productos/borrar/:id', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    res.render('main', {
-        layout: 'index'
-    })
+    const allProdutos = readAll();
+    res.render("./pages/main", allProdutos)
+})
+
+router.get('/productos/vista', (req, res) => {
+    const allProdutos = readAll();
+    res.render("./partials/tablaDinamica", allProdutos)
+})
+
+router.get('/formulario', (req, res) => {
+    res.render("./partials/formulario")
 })
