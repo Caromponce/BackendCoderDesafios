@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <div class="container bg-light">
+        <h2 class="mb-4">Agregar productos:</h2>
+        <form action="/api/productos/guardar" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Título:</label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Precio:</label>
+                <input type="text" class="form-control" id="price" name="price">
+            </div>
+            <div class="mb-3">
+                <label for="thumbnail" class="form-label">Imagen:</label>
+                <input type="text" class="form-control" id="thumbnail" name="thumbnail">
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Guardar</button>
+                <a href="/api" class="btn btn-primary">Ver productos</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

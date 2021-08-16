@@ -1,0 +1,29 @@
+<% if (typeof data != 'undefined') { %>
+
+<div class="bg-light">
+    <h2>Productos:</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Foto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(function(producto) { %>
+            <tr>
+                <td><%= producto.title %></td>
+                <td><%= producto.price %></td>
+                <td><img class="thumbnail" src=<%= producto.thumbnail %> alt=""></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+<% } else {%>
+<div class='alert alert-danger' role='alert'>
+    <%= error %>
+</div>
+<% } %>

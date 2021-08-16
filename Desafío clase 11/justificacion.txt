@@ -1,0 +1,2 @@
+De los tres motores de plantillas prefiero Pug, ya que en comparación con Handlebars estaríamos ahorrando código con las etiquetas de html. 
+Y en comparación con Ejs, Pug puede contener Layouts, lo que lo hace más ordenado, y además reutilizamos código más que con Ejs.
