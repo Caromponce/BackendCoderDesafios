@@ -1,0 +1,17 @@
+<div class="container bg-light">
+    <div class="email">
+        <h2>Centro de Mensajes</h2>
+    </div>
+    <form onsubmit="return addMessage(this)">
+        <div class="mb-3">
+            <label for="username" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="username" placeholder=" Ingrese su email">
+        </div>
+        <div id='messages'></div>
+        <div class="mb-3">
+            <label for="texto" class="form-label">Texto:</label>
+            <input type="text" class="form-control" id="texto" placeholder="Ingrese su mensaje">
+        </div>
+        <input type="button" class="btn btn-primary" value="Enviar" onclick="addMessage()">
+    </form>
+</div>
