@@ -17,7 +17,7 @@ export default class Carrito implements ICarrito {
 
     removeProduct(idProducto: number) {
         const productoIndex = this.productos.findIndex(producto => producto.id == idProducto);
-        if (productoIndex > 0) {
+        if (productoIndex != -1) {
             this.productos.splice(productoIndex, 1);
             return true;
         } else {
